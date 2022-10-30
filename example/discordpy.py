@@ -28,7 +28,7 @@ tokenStore: Dict[str, WebhookMessage] = {}
 
 @gateway.player()
 async def player_data(data: Player):
-    if not data.token in tokenStore:
+    if data.token not in tokenStore:
         return
 
     ctx = tokenStore[data.token]
@@ -73,7 +73,10 @@ async def login_genshin(ctx: Interaction):
         label="Login Genshin account"
     ))
 
-    message = await ctx.followup.send(f"Please login genshin to verify login via button", view=view)
+    message = await ctx.followup.send(
+        "Please login genshin to verify login via button", view=view
+    )
+
     tokenStore[token] = message
 
 bot.run(TOKEN)

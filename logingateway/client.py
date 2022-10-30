@@ -26,10 +26,10 @@ class HuTaoLoginAPI:
         self.io.on("*", self.recieve_event)
         self.io.on("connect_error", self.connect_error)
 
-        if not options.get("gateway_url") is None:
+        if options.get("gateway_url") is not None:
             self.URL = options.get("gateway_url")
 
-        if not options.get("login_url") is None:
+        if options.get("login_url") is not None:
             self.URL_LOGIN = options.get("login_url")
 
         self.__decorector = {}
@@ -71,17 +71,17 @@ class HuTaoLoginAPI:
             "token": token
         })
 
-        return self.URL_LOGIN + "/?" + query, token
+        return f"{self.URL_LOGIN}/?{query}", token
 
     async def recieve_event(self, event: str, data: Any = None):
         if event == "player":
             data = Player.parse_obj(data)
-        if event == "ready":
+        elif event == "ready":
             data = Ready.parse_obj(data)
 
         await self.callback(event, data)
 
-    async def connect_error(namespace: str, data: dict):
+    async def connect_error(self, data: dict):
         raise Exception(data["message"])
 
     async def callback(self, event: str, data):
