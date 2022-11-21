@@ -32,7 +32,7 @@ class LoginGatewayCog(commands.Cog):
         print("Connected to Hu Tao Gateway")
 
     async def gateway_player(self, data: Player):
-        if not data.token in self.tokenStore:
+        if data.token not in self.tokenStore:
             return
 
         ctx = self.tokenStore[data.token]
@@ -59,7 +59,10 @@ class LoginGatewayCog(commands.Cog):
             label="Login Genshin account"
         ))
 
-        message = await interaction.followup.send(f"Please login genshin to verify login via button", view=view)
+        message = await interaction.followup.send(
+            "Please login genshin to verify login via button", view=view
+        )
+
         self.tokenStore[token] = message
 
 async def setup(client: commands.Bot):

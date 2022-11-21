@@ -23,11 +23,11 @@ class LoginGatewayCog(commands.Cog):
             client_id=self.CLIENT_ID,
             client_secret=self.CLIENT_SECRET
         )
-        
+
         # Event
         self.gateway.ready(self.gateway_connect)
         self.gateway.player(self.gateway_player)
-        
+
         # Start gateway
         print("Connecting to Hu Tao Gateway")
         self.gateway.start()
